@@ -21,7 +21,7 @@ Version 1.0.0
         * [`pause`](#pause)
         * [`resume`](#resume)
     * [`TruexAdRenderer` Output Events](#truexadrenderer-output-events)
-        * [`AD_STARTED](#ad_started)
+        * [`AD_STARTED`](#ad_started)
         * [`AD_COMPLETED`](#ad_completed)
         * [`AD_ERROR`](#ad_error)
         * [`NO_ADS_AVAILABLE`](#no_ads_available)
