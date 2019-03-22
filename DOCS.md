@@ -31,7 +31,7 @@ Version 1.0.0
         * [`OPT_OUT` *(optional)*](#opt_out-optional) 
         * [`SKIP_CARD_SHOWN` *(optional)*](#skip_card_shown-optional) 
         * [`USER_CANCEL` *(optional)*](#user_cancel-optional) 
-        * [`CANCEL_STREAM` *(optional)*](#cancel_stream-optional) 
+        * [`USER_CANCEL_STREAM` *(optional)*](#user_cancel_stream-optional) 
     * [TruexAdRenderer Constants](#truexadrenderer-constants)
         * [`PREROLL`](#preroll)
         * [`MIDROLL`](#midroll)
@@ -324,15 +324,70 @@ This event will fire when a user backs out of the TrueX interactive ad unit afte
 Note that after a `USER_CANCEL`, the user can opt-in and engage with an interactive ad again, so more `OPT_IN` or `OPT_OUT` events may then be fired.
 
 
-#### `UESR_CANCEL_STREAM` *(optional)*
+#### `USER_CANCEL_STREAM` *(optional)*
 
     IEventHandler userCancelStreamHandler = (Map<String, ?> data) -> {
         int timeSpent = (Integer) data.get("timeSpent");
         // [...]
     };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.UESR_CANCEL_STREAM, userCancelStreamHandler);
+    truexAdRenderer.addEventListener(TruexAdRendererConstants.USER_CANCEL_STREAM, userCancelStreamHandler);
 
 This event conveys that a user has decided to cancel the stream entirely. The app, at this point, should treat this the same way it would handle any other "exit" action from within the stream -- in most cases this will result in the user being returned to an episode/series detail page.
+
+
+#### `VIDEO_STARTED` *(optional)*
+
+    IEventHandler videoStartedHandler = (Map<String, ?> data) -> {
+        String videoName = (String) data.get("videoName");
+        // [...]
+    };
+    truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_STARTED, videoStartedHandler);
+
+This event is called whenever a video is started within an engagement.
+
+
+#### `VIDEO_FIRST_QUARTILE` *(optional)*
+
+    IEventHandler videoFirstQuartileHandler = (Map<String, ?> data) -> {
+        String videoName = (String) data.get("videoName");
+        // [...]
+    };
+    truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_FIRST_QUARTILE, videoFirstQuartileHandler);
+
+This event is called whenever a video reaches the first quartile within an engagement.
+
+
+#### `VIDEO_SECOND_QUARTILE` *(optional)*
+
+    IEventHandler videoSecondQuartileHandler = (Map<String, ?> data) -> {
+        String videoName = (String) data.get("videoName");
+        // [...]
+    };
+    truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_SECOND_QUARTILE, videoSecondQuartileHandler);
+
+This event is called whenever a video reaches the second quartile within an engagement.
+
+
+#### `VIDEO_THIRD_QUARTILE` *(optional)*
+
+    IEventHandler videoThirdQuartileHandler = (Map<String, ?> data) -> {
+        String videoName = (String) data.get("videoName");
+        // [...]
+    };
+    truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_THIRD_QUARTILE, videoThirdQuartileHandler);
+
+This event is called whenever a video reaches the third quartile within an engagement.
+
+
+#### `VIDEO_COMPLETED` *(optional)*
+
+    IEventHandler videoCompletedHandler = (Map<String, ?> data) -> {
+        String videoName = (String) data.get("videoName");
+        // [...]
+    };
+    truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_COMPLETED, videoCompletedHandler);
+
+This event is called whenever a video reaches completion within an engagement.
 
 
 ### TruexAdRenderer Constants
