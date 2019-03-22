@@ -214,7 +214,7 @@ The parameters for this event are:
 #### `AD_COMPLETED`
 
     IEventHandler adCompletedHandler = (Map<String, ?> data) -> {
-        int timeSpentOnEngagement = (Integer) data.get("timeSpentOnEngagement");
+        int timeSpent = (Integer) data.get("timeSpent");
         // [...]
     };
     truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_COMPLETED, adCompletedHandler);
@@ -230,13 +230,13 @@ Here are some examples where `AD_COMPLETED` will fire:
 
 The parameters for this event are:
 
-* `timeSpentOnEngagement`: The amount of time (in seconds) the user spent on the TrueX interactive ad unit -- set to `0` if the user did not earn an ad free credit or if the user was shown a "skip card".
+* `timeSpent`: The amount of time (in seconds) the user spent on the TrueX interactive ad unit -- set to `0` if the user did not earn an ad free credit or if the user was shown a "skip card".
 
 
 #### `AD_ERROR`
 
     IEventHandler adErrorHandler = (Map<String, ?> data) -> {
-        String message = (String) data.get("message");
+        String errorMessage = (String) data.get("errorMessage");
         // [...]
     };
     truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_ERROR, adErrorHandler);
@@ -281,7 +281,7 @@ This event will fire when a popup webview is required from the app. The app shou
 
     IEventHandler optInHandler = (Map<String, ?> data) -> {
         String campaignName = (String) data.get("campaignName");
-        int creativeID = (Integer) data.get("creativeID");
+        int adID = (Integer) data.get("adID");
         // [...]
     };
     truexAdRenderer.addEventListener(TruexAdRendererConstants.OPT_IN, optInHandler);
@@ -324,13 +324,13 @@ This event will fire when a user backs out of the TrueX interactive ad unit afte
 Note that after a `USER_CANCEL`, the user can opt-in and engage with an interactive ad again, so more `OPT_IN` or `OPT_OUT` events may then be fired.
 
 
-#### `CANCEL_STREAM` *(optional)*
+#### `UESR_CANCEL_STREAM` *(optional)*
 
-    IEventHandler cancelStreamHandler = (Map<String, ?> data) -> {
-        int timeSpentOnEngagement = (Integer) data.get("timeSpentOnEngagement");
+    IEventHandler userCancelStreamHandler = (Map<String, ?> data) -> {
+        int timeSpent = (Integer) data.get("timeSpent");
         // [...]
     };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.CANCEL_STREAM, cancelStreamHandler);
+    truexAdRenderer.addEventListener(TruexAdRendererConstants.UESR_CANCEL_STREAM, userCancelStreamHandler);
 
 This event conveys that a user has decided to cancel the stream entirely. The app, at this point, should treat this the same way it would handle any other "exit" action from within the stream -- in most cases this will result in the user being returned to an episode/series detail page.
 
