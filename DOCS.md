@@ -327,7 +327,6 @@ Note that after a `USER_CANCEL`, the user can opt-in and engage with an interact
 #### `USER_CANCEL_STREAM` *(optional)*
 
     IEventHandler userCancelStreamHandler = (Map<String, ?> data) -> {
-        int timeSpent = (Integer) data.get("timeSpent");
         // [...]
     };
     truexAdRenderer.addEventListener(TruexAdRendererConstants.USER_CANCEL_STREAM, userCancelStreamHandler);
