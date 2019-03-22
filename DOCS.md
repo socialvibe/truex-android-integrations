@@ -32,7 +32,7 @@ Version 1.0.0
         * [`SKIP_CARD_SHOWN` *(optional)*](#skip_card_shown-optional) 
         * [`USER_CANCEL` *(optional)*](#user_cancel-optional) 
         * [`USER_CANCEL_STREAM` *(optional)*](#user_cancel_stream-optional) 
-    * [TruexAdRenderer Constants](#truexadrenderer-constants)
+    * [`TruexAdRenderer` Constants](#truexadrenderer-constants)
         * [`PREROLL`](#preroll)
         * [`MIDROLL`](#midroll)
 
@@ -390,7 +390,7 @@ This event is called whenever a video reaches the third quartile within an engag
 This event is called whenever a video reaches completion within an engagement.
 
 
-### TruexAdRenderer Constants
+### `TruexAdRenderer` Constants
 
 These constants will be available in `TruexAdRendererConstants`.
 
