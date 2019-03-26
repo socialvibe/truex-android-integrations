@@ -473,5 +473,5 @@ A `VIDEO_EVENT` is emitted when noteworthy events occur in a video within a true
 The parameters for this event are:
 
 * `type`: The type of the emitted video event. Valid values are found in `TruexAdRendererConstants`.
-* `videoName`: The name of the video that emitted the event
-* `url`: The source URL of the video that emitted the event
+* `videoName`: The name of the video that emitted the event, if available
+* `url`: The source URL of the video that emitted the event, if available
