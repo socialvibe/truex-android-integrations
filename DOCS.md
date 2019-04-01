@@ -289,7 +289,7 @@ This is a [terminal event](#terminal-events). This event will fire when the true
 
 Here are some examples where `AD_COMPLETED` will fire:
 
-* The user opts for normal video ads (not TrueX)
+* The user opts for normal video ads (not true\[X\])
 * The choice card countdown runs out
 * The user completes the true\[X\] ad unit
 * After a "skip card" has been shown to a user for its duration
