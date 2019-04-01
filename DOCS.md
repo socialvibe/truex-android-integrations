@@ -427,8 +427,6 @@ truexAdRenderer.addEventListener(TruexAdRendererConstants.SKIP_CARD_SHOWN, skipC
 
 This event will fire anytime a "skip card" is shown to a user as a result of completing a true\[X\] Sponsored Stream interactive ad in an earlier pre-roll.
 
-This event has no parameters.
-
 
 #### `USER_CANCEL`
 
@@ -442,8 +440,6 @@ truexAdRenderer.addEventListener(TruexAdRendererConstants.USER_CANCEL, userCance
 This event will fire when a user backs out of the true\[X\] interactive ad unit after having opted in. This would be achieved by tapping the "Yes" link to the "Are you sure you want to go back and choose a different ad experience" prompt inside the true\[X\] interactive ad. The user will be subsequently taken back to the Choice Card (with the countdown timer reset to full).
 
 Note that after a `USER_CANCEL`, the user can opt-in and engage with an interactive ad again, so more `OPT_IN` or `OPT_OUT` events may then be fired.
-
-This event has no parameters.
 
 
 #### `VIDEO_EVENT`
