@@ -327,8 +327,6 @@ truexAdRenderer.addEventListener(TruexAdRendererConstants.NO_ADS_AVAILABLE, noAd
 
 This is a [terminal event](#terminal-events). This event will fire when the true\[X\] unit has determined it has no ads available to show the current user. The app code should handle this the same way as an `AD_COMPLETED` event -- resume playback and remove all references to the `TruexAdRenderer` instance.
 
-This event has no parameters.
-
 
 #### `AD_FREE_POD`
 
