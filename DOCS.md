@@ -339,8 +339,6 @@ truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_FREE_POD, adFreePod
 
 This event will fire when the user has earned a credit with true\[X\]. The app code should notate that this event has fired, but should not take any further action. Upon receiving a [terminal event](#terminal-events), if `AD_FREE_POD` was fired, the app should skip all remaining ads in the current slot. If it was not fired, the app should resume playback without skipping any ads, so the user receives a normal video ad payload.
 
-This event has no parameters.
-
 
 #### `POPUP_WEBSITE`
 
