@@ -176,7 +176,7 @@ public void init(JSONObject adParameters, String slotType)
 
 This method will be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will parse out the `adParameters` and `slotType` passed to it and make a request to the true\[X\] ad server to see what ads are available.
 
-You may instantiate `TruexAdRenderer` early (a few seconds before the next pod even starts) in order to give it extra time to make the ad request. The renderer will output an `AD_FETCH_COMPLETED` event at completion of this ad request. This event can be used to facilitate the implementation of a timeout or loading indicator, and when to make the call to `start`.
+You may initialize `TruexAdRenderer` early (a few seconds before the next pod even starts) in order to give it extra time to make the ad request. The renderer will output an `AD_FETCH_COMPLETED` event at completion of this ad request. This event can be used to facilitate the implementation of a timeout or loading indicator, and when to make the call to `start`.
 
 The parameters for this method call are:
 
