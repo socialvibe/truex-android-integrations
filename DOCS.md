@@ -97,7 +97,7 @@ _**Fig. E** example true[X] mid-roll skip card_
 This messaging will be displayed to the user for several seconds, after which they will be returned directly to content.
 
 
-## How to use TruexAdRenderer 
+## How to use TruexAdRenderer
 
 ### When to show true[X]
 
@@ -114,17 +114,17 @@ Alternatively, you can instantiate and `init` the `TruexAdRenderer` in preparati
 
 Once `start` has been called on the renderer, it will start to emit events (see [`TruexAdRenderer` Output Events -- Main Flow](#truexadrenderer-output-events----main-flow) and [`TruexAdRenderer` Output Events -- Informative](#truexadrenderer-output-events----informative)).
 
-One of the first events you will receive is `AD_STARTED`. This notifies the app that the renderer has received an ad for the user and has started to show the unit to the user. The app does not need to do anything in response, however it can use this event to facilitate a timeout. If an `AD_STARTED` event has not fired within a certain amount of time after calling `start`, the app can call `stop` on the renderer and proceed to normal video ads. 
+One of the first events you will receive is [`AD_STARTED`](#ad_started). This notifies the app that the renderer has received an ad for the user and has started to show the unit to the user. The app does not need to do anything in response, however it can use this event to facilitate a timeout. If an `AD_STARTED` event has not fired within a certain amount of time after calling `start`, the app can call `stop` on the renderer and proceed to normal video ads.
 
-At this point, the app must listen for the renderer's *terminal events* (described below), while paying special attention to the `AD_FREE_POD` event. A *terminal event* signifies that the renderer is done with its activities and the app may now resume playback of its stream. The `AD_FREE_POD` event signifies that the user has earned a credit with true[X] and all linear video ads remaining in the current pod should be skipped. If the `AD_FREE_POD` event did not fire before a terminal event is emitted, the app should resume playback without skipping any ads, so the user receives a normal video ad payload.
+At this point, the app must listen for the renderer's [terminal events](#terminal-events), while paying special attention to the [`AD_FREE_POD`](#ad_free_pod) event. A *terminal event* signifies that the renderer is done with its activities and the app may now resume playback of its stream. The `AD_FREE_POD` event signifies that the user has earned a credit with true[X] and all linear video ads remaining in the current pod should be skipped. If the `AD_FREE_POD` event did not fire before a terminal event is emitted, the app should resume playback without skipping any ads, so the user receives a normal video ad payload.
 
 #### Terminal Events
 
 The *terminal events* are:
-* `AD_COMPLETED`: the user has exited the true[X] ad
-* `USER_CANCEL_STREAM`: the user intends to exit the current stream entirely
-* `NO_ADS_AVAILABLE`: there were no true[X] ads available to the user
-* `AD_ERROR`: the renderer encountered an unrecoverable error
+* [`AD_COMPLETED`](#ad_completed): the user has exited the true[X] ad
+* [`USER_CANCEL_STREAM`](#user_cancel_stream): the user intends to exit the current stream entirely
+* [`NO_ADS_AVAILABLE`](#no_ads_available): there were no true[X] ads available to the user
+* [`AD_ERROR`](#ad_error): the renderer encountered an unrecoverable error
 
 It's important to note that the player should not immediately resume playback once receiving the `AD_FREE_POD` event -- rather, it should note that it was fired and continue to wait for a terminal event.
 
@@ -166,6 +166,7 @@ dependencies {
 }
 ```
 
+
 ### TruexAdRenderer Methods
 
 #### `init`
@@ -174,7 +175,7 @@ dependencies {
     public void init(JSONObject adParameters, String slotType)
 ```
 
-This method will be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will parse out the `adParameters` and `slotType` passed to it and make a request to the true[X] ad server to see what ads are available.
+This method should be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will parse out the `adParameters` and `slotType` passed to it and make a request to the true[X] ad server to see what ads are available.
 
 You may initialize `TruexAdRenderer` early (a few seconds before the next pod even starts) in order to give it extra time to make the ad request. The renderer will output an `AD_FETCH_COMPLETED` event at completion of this ad request. This event can be used to facilitate the implementation of a timeout or loading indicator, and when to make the call to `start`.
 
