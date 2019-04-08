@@ -455,7 +455,7 @@ Note that after a `USER_CANCEL`, the user can opt-in and engage with an interact
     truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_EVENT, videoEventHandler);
 ```
 
-A `VIDEO_EVENT` is emitted when noteworthy events occur in a video within a true[X] unit. These events are differentiated by their `type` value as follows:
+A `VIDEO_EVENT` is emitted when noteworthy events occur in a video within a true[X] unit. These events are differentiated by their `type` value (found in `TruexAdRendererConstants`) as follows:
 
 * `VIDEO_STARTED`: A video has started
 * `VIDEO_FIRST_QUARTILE`: A video has reached its first quartile
@@ -465,6 +465,6 @@ A `VIDEO_EVENT` is emitted when noteworthy events occur in a video within a true
 
 The parameters for this event are:
 
-* `type`: The type of the emitted video event. Valid values are found in `TruexAdRendererConstants`.
+* `type`: The type of the emitted video event.
 * `videoName`: The name of the video that emitted the event, if available
 * `url`: The source URL of the video that emitted the event, if available
