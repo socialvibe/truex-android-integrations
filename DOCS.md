@@ -105,7 +105,7 @@ Upon receiving an ad schedule from your SSAI service, you should be able to dete
 
 SSAI vendors differ in the way they convey information back about ad schedules to clients. Certain vendors such as Verizon / Uplynk expose API’s which return details about the ad schedule in a JSON object. For other vendors, for instance Google DAI, the true[X] payload will be encapsulated as part of a companion payload on the returned VAST ad. Please work with your true[X] point of contact if you have difficulty identifying the right approach to detecting the true[X] placeholder, which will be the trigger point for the ad experience.
 
-Once the player reaches a true[X] placeholder, it should pause, instantiate the `TruexAdRenderer` and immediately call `init` followed by `start`.
+Once the player reaches a true[X] placeholder, it should pause, instantiate the `TruexAdRenderer` and immediately call [`init`](#init) followed by [`start`](#start).
 
 Alternatively, you can instantiate and `init` the `TruexAdRenderer` in preparation for an upcoming placeholder. This will give the `TruexAdRenderer` more time to complete its initial ad request, and will help streamline true[X] load time and minimize wait time for your users. Once the player reaches a placeholder, it can then call `start` to notify the renderer that it can display the unit to the user.
 
@@ -226,7 +226,7 @@ In contrast to `pause`, there is no way to resume the ad after `stop` is called.
     public void pause()
 ```
 
-`pause` is required whenever the app needs to pause the true[X] unit (including all video/audio and countdowns).
+`pause` is required whenever the app needs to pause the true[X] unit (including all video, audio, and timers).
 
 
 #### `resume`
