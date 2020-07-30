@@ -3,7 +3,7 @@
 
 # TruexAdRenderer Android/Fire TV Documentation
 
-Version 1.0.0
+Version 2.1.0
 
 ## Contents
 
@@ -145,24 +145,24 @@ The easiest way to add `TruexAdRenderer` is via Maven. The renderer will be main
 
 1. Add the Maven repository to your project:
     ```
-    https://raw.github.com/socialvibe/truex-tv-integrations/android
+    https://ctv.truex.com/android/maven
     ```
 1. Add the dependency:
     * group ID: `com.truex`
     * artifact ID: `TruexAdRenderer-tv`
-    * version: `2.0.0`
+    * version: `2.1.2`
 
 #### Gradle Example
 
 ```groovy
 repositories {
     maven {
-        url "https://raw.github.com/socialvibe/truex-tv-integrations/android"
+        url "https://ctv.truex.com/android/maven"
     }
 }
 
 dependencies {
-    implementation 'com.truex:TruexAdRenderer-tv:2.0.0'
+    implementation 'com.truex:TruexAdRenderer-tv:2.1.2'
 }
 ```
 
