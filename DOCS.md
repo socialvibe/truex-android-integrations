@@ -3,7 +3,7 @@
 
 # TruexAdRenderer Android/Fire TV Documentation
 
-Version 2.1.0
+Version 2.1.3
 
 ## Contents
 
@@ -150,7 +150,7 @@ The easiest way to add `TruexAdRenderer` is via Maven. The renderer will be main
 1. Add the dependency:
     * group ID: `com.truex`
     * artifact ID: `TruexAdRenderer-tv`
-    * version: `2.1.2`
+    * version: `2.1.3`
 
 #### Gradle Example
 
@@ -162,7 +162,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.truex:TruexAdRenderer-tv:2.1.2'
+    implementation 'com.truex:TruexAdRenderer-tv:2.1.3'
 }
 ```
 

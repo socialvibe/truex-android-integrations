@@ -13,7 +13,7 @@ The first step is to fetch the latest version of the TruexAdRenderer. The easies
 In your app's `build.gradle`:
 
 1. Under `repositories`, add a new maven entry with the url: <https://ctv.truex.com/android/maven>
-2. Under `dependencies`, add `compile 'com.truex:TruexAdRenderer-tv:2.1.2'`
+2. Under `dependencies`, add `compile 'com.truex:TruexAdRenderer-tv:2.1.3'`
 
 #### Example app's build.gradle
 
@@ -46,7 +46,7 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.truex:TruexAdRenderer-tv:2.1.2'
+    implementation 'com.truex:TruexAdRenderer-tv:2.1.3'
 }
 ```
 
