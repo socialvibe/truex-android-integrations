@@ -226,7 +226,7 @@ In contrast to `pause`, there is no way to resume the ad after `stop` is called.
     public void pause()
 ```
 
-`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change. Pausing the true[X] unit will pause its videos, audios, and timers.
+`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change, [see BroadcastReceiver example](https://github.com/socialvibe/Sheppard/blob/master/Sheppard/src/main/java/com/truex/sheppard/MainActivity.java#L289-L302). Pausing the true[X] unit will pause its videos, audios, and timers.
 
 
 #### `resume`
