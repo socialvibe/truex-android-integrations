@@ -146,24 +146,24 @@ The easiest way to add `TruexAdRenderer` is via Maven. The renderer will be main
 
 1. Add the Maven repository to your project:
     ```
-    https://ctv.truex.com/android/maven
+    https://s3.amazonaws.com/android.truex.com/tar/prod/maven
     ```
 1. Add the dependency:
     * group ID: `com.truex`
-    * artifact ID: `TruexAdRenderer-tv`
-    * version: `2.1.2`
+    * artifact ID: `TruexAdRenderer-Android`
+    * version: `2.8.2`
 
 #### Gradle Example
 
 ```groovy
 repositories {
     maven {
-        url "https://ctv.truex.com/android/maven"
+        url "https://s3.amazonaws.com/android.truex.com/tar/prod/maven"
     }
 }
 
 dependencies {
-    implementation 'com.truex:TruexAdRenderer-tv:2.1.2'
+    implementation 'com.truex:TruexAdRenderer-Android:2.8.2'
 }
 ```
 
