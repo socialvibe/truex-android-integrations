@@ -260,8 +260,9 @@ Note that one can subscribe either individual events with specific handlers, or 
 truexAdRenderer.addEventListener(null, (TruexAdEvent event, Map<String,?> data) -> {
   switch (event.type){
   case TruexAdEvent.AD_STARTED:
-  // [...]
-  break;
+      // [...]
+      break;
+  // ...other cases...
   }
 });
 ```
