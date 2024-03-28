@@ -412,8 +412,6 @@ All following events are used mostly for tracking purposes -- no action is gener
 
 ```java
     IEventHandler optInHandler = (TruexAdEvent event, Map<String, ?> data) -> {
-        String campaignName = (String) data.get("campaignName");
-        int adID = (Integer) data.get("adID");
         // [...]
     };
     truexAdRenderer.addEventListener(TruexAdRendererConstants.OPT_IN, optInHandler);
@@ -422,12 +420,6 @@ All following events are used mostly for tracking purposes -- no action is gener
 This event will fire if the user selects to interact with the true[X] interactive ad.
 
 Note that this event may be fired multiple times if a user opts in to the true[X] interactive ad and subsequently backs out.
-
-The parameters for this event are:
-
-* `campaignName`: The name of the ad campaign.
-* `adID`: The ad ID.
-
 
 #### `OPT_OUT`
 
