@@ -382,6 +382,8 @@ This event will fire when the user has earned a credit with true[X]. The app cod
 
 This event will fire when a popup view is required from the app. The app should call `pause` on the renderer and display the requested URL to the user. Once the user closes the popup, the app should call `resume` on the renderer.
 
+NOTE: This event is fired for mobile only.
+
 The parameters for this event are:
 
 * `url`: The URL to open in the popup.
