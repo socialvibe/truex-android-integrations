@@ -13,7 +13,7 @@ The first step is to fetch the latest version of the TruexAdRenderer. The easies
 In your app's `build.gradle`:
 
 1. Under `repositories`, add a new maven entry with the url: <https://s3.amazonaws.com/android.truex.com/tar/prod/maven>
-2. Under `dependencies`, add `implement 'com.truex:TruexAdRenderer-Android:2.6.1'`
+2. Under `dependencies`, add `implement 'com.truex:TruexAdRenderer-Android:2.8.2'`
 
 #### Example app's build.gradle
 
@@ -46,7 +46,7 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.truex:TruexAdRenderer-Android:2.6.1'
+    implementation 'com.truex:TruexAdRenderer-Android:2.8.2'
 }
 ```
 
