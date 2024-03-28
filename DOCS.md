@@ -270,9 +270,9 @@ truexAdRenderer.addEventListener(null, (TruexAdEvent event, Map<String,?> data) 
 #### `AD_FETCH_COMPLETED`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_FETCH_COMPLETED, (TruexAdEvent event, Map<String,?> data) -> {
-  // [...]
-});
+truexAdRenderer.addEventListener(TruexAdEvent.AD_FETCH_COMPLETED, (TruexAdEvent event, Map<String,?> data) -> {
+    // [...]
+  });
 ```
 
 This event fires in response to the `init` method when the true[X] ad request has successfully completed and the ad is ready to be presented. The host app may use this event to facilitate a loading screen for pre-rolls, or to facilitate an ad request timeout for mid-rolls.
@@ -285,7 +285,7 @@ Another example: `init` is called well before a mid-roll slot to give the render
 #### `AD_STARTED`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_STARTED, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.AD_STARTED, (TruexAdEvent event, Map<String,?> data) -> {
   // [...]
 });
 ```
@@ -295,7 +295,7 @@ This event will fire in response to the `start` method when the true[X] UI is re
 #### `AD_DISPLAYED`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_DISPLAYED, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.AD_DISPLAYED, (TruexAdEvent event, Map<String,?> data) -> {
   // [...]
 });
 ```
@@ -309,7 +309,7 @@ This event is optional, and for most cases the renderer's own loading spinner is
 #### `AD_COMPLETED`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_COMPLETED, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.AD_COMPLETED, (TruexAdEvent event, Map<String,?> data) -> {
   int timeSpent = (Integer) data.get("timeSpent");
   // [...]
 });
@@ -332,7 +332,7 @@ The parameters for this event are:
 #### `AD_ERROR`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_ERROR, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.AD_ERROR, (TruexAdEvent event, Map<String,?> data) -> {
   String errorMessage = (String) data.get("errorMessage");
   // [...]
 });
@@ -348,7 +348,7 @@ The parameters for this event are:
 #### `NO_ADS_AVAILABLE`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.NO_ADS_AVAILABLE, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.NO_ADS_AVAILABLE, (TruexAdEvent event, Map<String,?> data) -> {
   // [...]
 });
 ```
@@ -361,7 +361,7 @@ This is a [terminal event](#terminal-events). This event will fire when the true
 ```java
 boolean gotCredit = false;
 
-truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_FREE_POD, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.AD_FREE_POD, (TruexAdEvent event, Map<String,?> data) -> {
   gotCredit = true;
   // [...]
 });
@@ -373,7 +373,7 @@ This event will fire when the user has earned a credit with true[X]. The app cod
 #### `POPUP_WEBSITE`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.POPUP_WEBSITE, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.POPUP_WEBSITE, (TruexAdEvent event, Map<String,?> data) -> {
   String url = (String) data.get("url");
   // send Intent to open browser app
 });
@@ -391,7 +391,7 @@ The parameters for this event are:
 #### `USER_CANCEL_STREAM`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.USER_CANCEL_STREAM, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.USER_CANCEL_STREAM, (TruexAdEvent event, Map<String,?> data) -> {
   // [...]
 });
 ```
@@ -411,7 +411,7 @@ All following events are used mostly for tracking purposes -- no action is gener
 #### `OPT_IN`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.OPT_IN, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.OPT_IN, (TruexAdEvent event, Map<String,?> data) -> {
   // [...]
 });
 ```
@@ -423,7 +423,7 @@ Note that this event may be fired multiple times if a user opts in to the true[X
 #### `OPT_OUT`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.OPT_OUT, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.OPT_OUT, (TruexAdEvent event, Map<String,?> data) -> {
   boolean userInitiated = (Boolean) data.get("userInitiated");
   // [...]
 });
@@ -439,7 +439,7 @@ The parameters for this event are:
 #### `SKIP_CARD_SHOWN`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.SKIP_CARD_SHOWN, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.SKIP_CARD_SHOWN, (TruexAdEvent event, Map<String,?> data) -> {
   // [...]
 });
 ```
@@ -450,7 +450,7 @@ This event will fire anytime a "skip card" is shown to a user as a result of com
 #### `USER_CANCEL`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.USER_CANCEL, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.USER_CANCEL, (TruexAdEvent event, Map<String,?> data) -> {
   // [...]
 });
 ```
@@ -463,7 +463,7 @@ Note that after a `USER_CANCEL`, the user can opt-in and engage with an interact
 #### `VIDEO_EVENT`
 
 ```java
-truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_EVENT, (TruexAdEvent event, Map<String,?> data) -> {
+truexAdRenderer.addEventListener(TruexAdEvent.VIDEO_EVENT, (TruexAdEvent event, Map<String,?> data) -> {
     String type = (String) data.get("subType");
     String videoName = (String) data.get("videoName");
     String url = (String) data.get("url");
