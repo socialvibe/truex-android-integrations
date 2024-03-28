@@ -48,7 +48,11 @@ With this library, the host player app can defer to the TruexAdRenderer when it 
 
 For simplicity, publisher implemented code will be referred to as "app code" while true[X] implemented code will be referred to as "renderer code".
 
-true[X] will provide a Java `TruexAdRenderer` library that can be loaded into the app. This library will offer a class, `TruexAdRenderer`, that will need to be instantiated, initialized and given certain commands (described below in [TruexAdRenderer Methods](#truexadrenderer-methods)) by the app code. It will also contain a class of shared constants, `TruexAdRendererConstants`.
+true[X] will provide a Java `TruexAdRenderer` library that can be loaded into the app. This library will offer a class, `TruexAdRenderer`, that will need to be instantiated, initialized and given certain commands (described below in [TruexAdRenderer Methods](#truexadrenderer-methods)) by the app code. It will also contain the following classes:
+
+* `TruexAdEvent`: enumeration class used for listening for ad events
+* `IEventEmitted`: describes the ad event callback signature 
+* `TruexAdOptions`: describes possible confiuration options for the renderer's [`init`](#init) call
 
 At this point, the renderer code will take on the responsibility of requesting ads from true[X] server, creating the native UI for the true[X] choice card and interactive ad unit, as well as communicating events to the app code when action is required.
 
