@@ -183,7 +183,7 @@ dependencies {
     public void init(JSONObject vastConfigJSON, TruexAdOptions options)
 ```
 
-This method should be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will either use a vast configuration url to fetch a vast configuration from the true[X] ad server to see what ads are available, or alternatively make use of one directly in the case it is already present to the caller (perhaps via the `AdParameters` section of a VAST xml descriptor).
+One of these `init` methods should be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will either use a vast configuration url to fetch a vast configuration from the true[X] ad server to see what ads are available, or alternatively make use of a vast configuration JSON object directly in the case it is already present to the caller (e.g. perhaps via the `AdParameters` section of a VAST xml descriptor).
 
 You may initialize `TruexAdRenderer` early (a few seconds before the next pod even starts) in order to give it extra time to make the ad request. The renderer will output an `AD_FETCH_COMPLETED` event at completion of this ad request. This event can be used to facilitate the implementation of a timeout or loading indicator, and when to make the call to `start`.
 
@@ -239,7 +239,7 @@ In contrast to `pause`, there is no way to resume the ad after `stop` is called.
     public void pause()
 ```
 
-`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change, [see BroadcastReceiver example](https://github.com/socialvibe/Sheppard/blob/e8471749fe4566076767862cc4b418053d01d005/Sheppard/src/main/java/com/truex/sheppard/MainActivity.java#L317-L330), and following the definition on `onPause` and how it eventually calls `truexAdRenderer.pause()`. Pausing the true[X] unit will pause its videos, audios, and timers.
+`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change, [see BroadcastReceiver example](https://github.com/socialvibe/Sheppard/blob/e8471749fe4566076767862cc4b418053d01d005/Sheppard/src/main/java/com/truex/sheppard/MainActivity.java#L317-L330), and follow on to the definition of `onPause` and how it eventually calls `truexAdRenderer.pause()`. Pausing the true[X] unit will pause its videos, audios, and timers.
 
 
 #### `resume`
