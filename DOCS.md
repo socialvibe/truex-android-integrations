@@ -3,7 +3,7 @@
 
 # TruexAdRenderer Android/Fire TV Documentation
 
-Version 2.1.0
+Version 2.8.2
 
 ## Contents
 
