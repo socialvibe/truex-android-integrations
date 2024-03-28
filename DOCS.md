@@ -271,8 +271,8 @@ truexAdRenderer.addEventListener(null, (TruexAdEvent event, Map<String,?> data) 
 
 ```java
 truexAdRenderer.addEventListener(TruexAdEvent.AD_FETCH_COMPLETED, (TruexAdEvent event, Map<String,?> data) -> {
-    // [...]
-  });
+  // [...]
+});
 ```
 
 This event fires in response to the `init` method when the true[X] ad request has successfully completed and the ad is ready to be presented. The host app may use this event to facilitate a loading screen for pre-rolls, or to facilitate an ad request timeout for mid-rolls.
