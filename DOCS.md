@@ -173,23 +173,31 @@ dependencies {
 #### `init`
 
 ```java
-    public void init(JSONObject adParameters, String slotType)
+    public void init(String vastConfigURL)
+    public void init(String vastConfigURL, TruexAdOptions options)
+    public void init(JSONObject vastConfigJSON)
+    public void init(JSONObject vastConfigJSON, TruexAdOptions options)
 ```
 
-This method should be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will parse out the `adParameters` and `slotType` passed to it and make a request to the true[X] ad server to see what ads are available.
+This method should be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will either use a vast configuration url to fetch a vast configuration from the true[X] ad server to see what ads are available, or alternatively make use of one directly in the case it is already present to the caller (perhaps via the `AdParameters` section of a VAST xml descriptor).
 
 You may initialize `TruexAdRenderer` early (a few seconds before the next pod even starts) in order to give it extra time to make the ad request. The renderer will output an `AD_FETCH_COMPLETED` event at completion of this ad request. This event can be used to facilitate the implementation of a timeout or loading indicator, and when to make the call to `start`.
 
 The parameters for this method call are:
 
-* `adParameters`: AdParameters as returned by SSAI. In the example of Uplynk, this would correspond to `response.ads.breaks[0].ads[0].adParameters`
-* `slotType`: the type of the current ad pod, `PREROLL` or `MIDROLL`
-
+* `vastConfigURL`: The url to obtain the VAST config JSON description with
+* `vastConfigJSON`: The VAST config JSON description
+* `options`: An optional options object to help configure the renderer. The possible options are:
+  * `supportsUserCancelStream`: (default `false`) If true, enables the userCancelStream event for back actions from the choice card. Defaults to false, which means back actions cause optOut/adCompleted events instead. 
+  * `userAdvertisingId`: (default `null`) The id to be used for user ad tracking. Usually omitted so that the platform's own advertising tracking id can be used.
+  * `fallbackAdvertisingId`: (default `null`) The id used for user ad tracking when no explicit user ad id is provided or available from the platform. By default it is a randomly generated UUID. Specifying it allows one to control if limited ad tracking is truly random per ad, or else shared across multiple TAR ad sessions, e.g. during the playback of a single video.
+  * `appId`: (default `null`) Used for internal tracking. Computed from the root view context's `getPackageName()` if not specified.
+  * `enableWebViewDebugging`: (default false) If true, remote web view debugging using Chrome via chrome://inspect is enabled event for release builds. Otherwise it is allowed only for debug builds or with QA trueX ads (i.e. from qa-get.truex.com end point).
 
 #### `start`
 
 ```java
-    public void start(final ViewGroup baseView)
+    public void start(ViewGroup baseView)
 ```
 
 This method should be called by the app code when the app is ready to display the true[X] unit to the user. This can be called anytime after the unit is initialized. 
@@ -227,7 +235,7 @@ In contrast to `pause`, there is no way to resume the ad after `stop` is called.
     public void pause()
 ```
 
-`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change, [see BroadcastReceiver example](https://github.com/socialvibe/Sheppard/blob/master/Sheppard/src/main/java/com/truex/sheppard/MainActivity.java#L289-L302). Pausing the true[X] unit will pause its videos, audios, and timers.
+`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change, [see BroadcastReceiver example](https://github.com/socialvibe/Sheppard/blob/e8471749fe4566076767862cc4b418053d01d005/Sheppard/src/main/java/com/truex/sheppard/MainActivity.java#L317-L330), and following the definition on `onPause` and how it eventually calls `truexAdRenderer.pause()`. Pausing the true[X] unit will pause its videos, audios, and timers.
 
 
 #### `resume`
