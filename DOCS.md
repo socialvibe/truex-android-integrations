@@ -3,7 +3,7 @@
 
 # TruexAdRenderer Android/Fire TV Documentation
 
-Version 2.1.0
+Version 2.8.2
 
 ## Contents
 
@@ -26,6 +26,7 @@ Version 2.1.0
     * [`TruexAdRenderer` Output Events -- Main Flow](#truexadrenderer-output-events----main-flow)
         * [`AD_FETCH_COMPLETED`](#ad_fetch_completed)
         * [`AD_STARTED`](#ad_started)
+        * [`AD_DISPLAYED`](#ad_displayed)
         * [`AD_COMPLETED`](#ad_completed)
         * [`AD_ERROR`](#ad_error)
         * [`NO_ADS_AVAILABLE`](#no_ads_available)
@@ -37,7 +38,7 @@ Version 2.1.0
         * [`OPT_OUT`](#opt_out)
         * [`SKIP_CARD_SHOWN`](#skip_card_shown)
         * [`USER_CANCEL`](#user_cancel)
-        * [`VIDEO_EVENT`](#video_event)
+        <!-- * [`VIDEO_EVENT`](#video_event) -->
 
 ## Overview
 
@@ -47,11 +48,15 @@ With this library, the host player app can defer to the TruexAdRenderer when it 
 
 For simplicity, publisher implemented code will be referred to as "app code" while true[X] implemented code will be referred to as "renderer code".
 
-true[X] will provide a Java `TruexAdRenderer` library that can be loaded into the app. This library will offer a class, `TruexAdRenderer`, that will need to be instantiated, initialized and given certain commands (described below in [TruexAdRenderer Methods](#truexadrenderer-methods)) by the app code. It will also contain a class of shared constants, `TruexAdRendererConstants`.
+true[X] will provide a Java `TruexAdRenderer` library that can be loaded into the app. This library will offer a class, `TruexAdRenderer`, that will need to be instantiated, initialized and given certain commands (described below in [TruexAdRenderer Methods](#truexadrenderer-methods)) by the app code. It will also contain the following classes:
+
+* `TruexAdEvent`: enumeration class used for listening for ad events
+* `IEventEmitter`: describes the ad event callback signature 
+* `TruexAdOptions`: describes possible confiuration options for the renderer's [`init`](#init) call
 
 At this point, the renderer code will take on the responsibility of requesting ads from true[X] server, creating the native UI for the true[X] choice card and interactive ad unit, as well as communicating events to the app code when action is required.
 
-The app code will still need to parse out the SSAI ad response, detect when a true[X] ad is supposed to display, pause the stream, instantiate `TruexAdRenderer` and handle any events emitted by the renderer code. It will also need to call pause, resume and stop methods on the `TruexAdRenderer` when certain external events happen, like if the app is backgrounded or if the user has requested to exit the requested stream via back buttons.
+The app code will still need to parse out their ad server ad response (typically a VAST xml response, for via an SDK like Google IMA) ad response, detect when a true[X] ad is supposed to display, pause the stream, instantiate `TruexAdRenderer` and handle any events emitted by the renderer code. It will also need to call pause, resume and stop methods on the `TruexAdRenderer` when certain external events happen, like if the app is backgrounded or if the user has requested to exit the requested stream via back buttons.
 
 It will also need to handle skipping ads in the current ad pod, if it is notified to do so.
 
@@ -101,9 +106,9 @@ This messaging will be displayed to the user for several seconds, after which th
 
 ### When to show true[X]
 
-Upon receiving an ad schedule from your SSAI service, you should be able to detect whether or not true[X] is returned in any of the pods. true[X] ads should have `apiFramework` set to `VPAID` or `truex`.
+Upon receiving an ad schedule from your ad service provider, you should be able to detect whether or not true[X] is returned in any of the pods. true[X] ads should have `apiFramework` set to `VPAID` or `truex`.
 
-SSAI vendors differ in the way they convey information back about ad schedules to clients. Certain vendors such as Verizon / Uplynk expose API’s which return details about the ad schedule in a JSON object. For other vendors, for instance Google DAI, the true[X] payload will be encapsulated as part of a companion payload on the returned VAST ad. Please work with your true[X] point of contact if you have difficulty identifying the right approach to detecting the true[X] placeholder, which will be the trigger point for the ad experience.
+Ad service vendors differ in the way they convey information back about ad schedules to clients. Certain vendors such as Verizon / Uplynk expose API’s which return details about the ad schedule in a JSON object. For other vendors, for instance Google DAI, the true[X] payload will be encapsulated as part of a companion payload on the returned VAST ad. Please work with your true[X] point of contact if you have difficulty identifying the right approach to detecting the true[X] placeholder, which will be the trigger point for the ad experience.
 
 Once the player reaches a true[X] placeholder, it should pause, instantiate the `TruexAdRenderer` and immediately call [`init`](#init) followed by [`start`](#start).
 
@@ -114,7 +119,7 @@ Alternatively, you can instantiate and `init` the `TruexAdRenderer` in preparati
 
 Once `start` has been called on the renderer, it will start to emit events (see [`TruexAdRenderer` Output Events -- Main Flow](#truexadrenderer-output-events----main-flow) and [`TruexAdRenderer` Output Events -- Informative](#truexadrenderer-output-events----informative)).
 
-One of the first events you will receive is [`AD_STARTED`](#ad_started). This notifies the app that the renderer has received an ad for the user and has started to show the unit to the user. The app does not need to do anything in response, however it can use this event to facilitate a timeout. If an `AD_STARTED` event has not fired within a certain amount of time after calling `start`, the app can call `stop` on the renderer and proceed to normal video ads.
+One of the first events you will receive is [`AD_STARTED`](#ad_started). This notifies the app that the renderer has received an ad for the user and has started to show the unit to the user. The app does not need to do anything in response, however it can use this event to facilitate a timeout. If an `AD_STARTED` event has not fired within a certain amount of time after calling `start`, the renderer will stop and cleanup, and then fire an [`AD_ERROR`](#ad_error) event, after which the app can proceed to normal video ads.
 
 At this point, the app must listen for the renderer's [terminal events](#terminal-events), while paying special attention to the [`AD_FREE_POD`](#ad_free_pod) event. A *terminal event* signifies that the renderer is done with its activities and the app may now resume playback of its stream. The `AD_FREE_POD` event signifies that the user has earned a credit with true[X] and all linear video ads remaining in the current pod should be skipped. If the `AD_FREE_POD` event did not fire before a terminal event is emitted, the app should resume playback without skipping any ads, so the user receives a normal video ad payload.
 
@@ -131,7 +136,7 @@ It's important to note that the player should not immediately resume playback on
 
 ### Handling Ad Elimination
 
-Skipping video ads is completely the responsibility of the app code. The SSAI API should provide enough information for the app to determine where the current pod end-point is, and the app, when appropriate, should fast-forward directly to this point when resuming playback.
+Skipping video ads is completely the responsibility of the app code. The ad service provider's SDK should provide enough information for the app to determine where the current pod end-point is, and the app, when appropriate, should fast-forward directly to this point when resuming playback.
 
 
 ## TruexAdRenderer Android/Fire TV API
@@ -145,24 +150,24 @@ The easiest way to add `TruexAdRenderer` is via Maven. The renderer will be main
 
 1. Add the Maven repository to your project:
     ```
-    https://ctv.truex.com/android/maven
+    https://s3.amazonaws.com/android.truex.com/tar/prod/maven
     ```
 1. Add the dependency:
     * group ID: `com.truex`
-    * artifact ID: `TruexAdRenderer-tv`
-    * version: `2.1.2`
+    * artifact ID: `TruexAdRenderer-Android`
+    * version: `2.8.2`
 
 #### Gradle Example
 
 ```groovy
 repositories {
     maven {
-        url "https://ctv.truex.com/android/maven"
+        url "https://s3.amazonaws.com/android.truex.com/tar/prod/maven"
     }
 }
 
 dependencies {
-    implementation 'com.truex:TruexAdRenderer-tv:2.1.2'
+    implementation 'com.truex:TruexAdRenderer-Android:2.8.2'
 }
 ```
 
@@ -172,23 +177,31 @@ dependencies {
 #### `init`
 
 ```java
-    public void init(JSONObject adParameters, String slotType)
+    public void init(String vastConfigURL)
+    public void init(String vastConfigURL, TruexAdOptions options)
+    public void init(JSONObject vastConfigJSON)
+    public void init(JSONObject vastConfigJSON, TruexAdOptions options)
 ```
 
-This method should be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will parse out the `adParameters` and `slotType` passed to it and make a request to the true[X] ad server to see what ads are available.
+One of these `init` methods should be called by the app code in order to initialize the `TruexAdRenderer`. The renderer will either use a vast configuration url to fetch a vast configuration from the true[X] ad server to see what ads are available, or alternatively make use of a vast configuration JSON object directly in the case it is already present to the caller (e.g. perhaps via the `AdParameters` section of a VAST xml descriptor).
 
 You may initialize `TruexAdRenderer` early (a few seconds before the next pod even starts) in order to give it extra time to make the ad request. The renderer will output an `AD_FETCH_COMPLETED` event at completion of this ad request. This event can be used to facilitate the implementation of a timeout or loading indicator, and when to make the call to `start`.
 
 The parameters for this method call are:
 
-* `adParameters`: AdParameters as returned by SSAI. In the example of Uplynk, this would correspond to `response.ads.breaks[0].ads[0].adParameters`
-* `slotType`: the type of the current ad pod, `PREROLL` or `MIDROLL`
-
+* `vastConfigURL`: The url to obtain the VAST config JSON description with
+* `vastConfigJSON`: The VAST config JSON description
+* `options`: An optional options object to help configure the renderer. The possible options are:
+  * `supportsUserCancelStream`: (default `false`) If true, enables the userCancelStream event for back actions from the choice card. Defaults to false, which means back actions cause optOut/adCompleted events instead. 
+  * `userAdvertisingId`: (default `null`) The id to be used for user ad tracking. Usually omitted so that the platform's own advertising tracking id can be used.
+  * `fallbackAdvertisingId`: (default `null`) The id used for user ad tracking when no explicit user ad id is provided or available from the platform. By default it is a randomly generated UUID. Specifying it allows one to control if limited ad tracking is truly random per ad, or else shared across multiple TAR ad sessions, e.g. during the playback of a single video.
+  * `appId`: (default `null`) Used for internal tracking. Computed from the root view context's `getPackageName()` if not specified.
+  * `enableWebViewDebugging`: (default false) If true, remote web view debugging using Chrome via chrome://inspect is enabled event for release builds. Otherwise it is allowed only for debug builds or with QA trueX ads (i.e. from qa-get.truex.com end point).
 
 #### `start`
 
 ```java
-    public void start(final ViewGroup baseView)
+    public void start(ViewGroup baseView)
 ```
 
 This method should be called by the app code when the app is ready to display the true[X] unit to the user. This can be called anytime after the unit is initialized. 
@@ -226,7 +239,7 @@ In contrast to `pause`, there is no way to resume the ad after `stop` is called.
     public void pause()
 ```
 
-`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change, [see BroadcastReceiver example](https://github.com/socialvibe/Sheppard/blob/master/Sheppard/src/main/java/com/truex/sheppard/MainActivity.java#L289-L302). Pausing the true[X] unit will pause its videos, audios, and timers.
+`pause` is required whenever the hosted app needs to be paused, either for the app life-cycle events, or android broadcast events like HDMI state change, [see BroadcastReceiver example](https://github.com/socialvibe/Sheppard/blob/e8471749fe4566076767862cc4b418053d01d005/Sheppard/src/main/java/com/truex/sheppard/MainActivity.java#L317-L330), and follow on to the definition of `onPause` and how it eventually calls `truexAdRenderer.pause()`. Pausing the true[X] unit will pause its videos, audios, and timers.
 
 
 #### `resume`
@@ -240,16 +253,26 @@ In contrast to `pause`, there is no way to resume the ad after `stop` is called.
 
 ### `TruexAdRenderer` Output Events -- Main Flow
 
-The following events signal the main flow of the `TruexAdRenderer` and may require action by the host app:
+The following events signal the main flow of the `TruexAdRenderer` and may require action by the host app.
 
+Note that one can subscribe either individual events with specific handlers, or subscribe to all events with a single handler, by using `null` as the event type on the `addEventListener` call, e.g.
+```java
+truexAdRenderer.addEventListener(null, (TruexAdEvent event, Map<String,?> data) -> {
+  switch (event.type){
+  case TruexAdEvent.AD_STARTED:
+      // [...]
+      break;
+  // ...other cases...
+  }
+});
+```
 
 #### `AD_FETCH_COMPLETED`
 
 ```java
-    IEventHandler adFetchCompletedHandler = (Map<String, ?> data) -> {
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_FETCH_COMPLETED, adFetchCompletedHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.AD_FETCH_COMPLETED, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
 ```
 
 This event fires in response to the `init` method when the true[X] ad request has successfully completed and the ad is ready to be presented. The host app may use this event to facilitate a loading screen for pre-rolls, or to facilitate an ad request timeout for mid-rolls.
@@ -262,28 +285,34 @@ Another example: `init` is called well before a mid-roll slot to give the render
 #### `AD_STARTED`
 
 ```java
-    IEventHandler adStartedHandler = (Map<String, ?> data) -> {
-        String campaignName = (String) data.get("campaignName");
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_STARTED, adStartedHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.AD_STARTED, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
 ```
 
 This event will fire in response to the `start` method when the true[X] UI is ready and has been added to the view hierarchy.
 
-The parameters for this event are:
+#### `AD_DISPLAYED`
 
-* `campaignName`: The name of the ad campaign available to the user (e.g. "*Storebought Coffee - Sample Video Ad #1 - Q1 2017*")
+```java
+truexAdRenderer.addEventListener(TruexAdEvent.AD_DISPLAYED, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
+```
 
+This event will fire after `AD_STARTED` after all initial UX assets are loaded and visible on the screen. This is useful for when a app is showing its own loading screen instead of the default, i.e. hdinging the renderer parent view until the ad is actually ready to be displayed.
+
+At the time `AD_DISPLAYED` is fired, the app can then hide its custom loading screen and show the renderer view.
+
+This event is optional, and for most cases the renderer's own loading spinner is good to use.
 
 #### `AD_COMPLETED`
 
 ```java
-    IEventHandler adCompletedHandler = (Map<String, ?> data) -> {
-        int timeSpent = (Integer) data.get("timeSpent");
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_COMPLETED, adCompletedHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.AD_COMPLETED, (TruexAdEvent event, Map<String,?> data) -> {
+  int timeSpent = (Integer) data.get("timeSpent");
+  // [...]
+});
 ```
 
 This is a [terminal event](#terminal-events). This event will fire when the true[X] unit is finished with its activities -- at this point, the app should resume playback and remove all references to the `TruexAdRenderer` instance.
@@ -303,11 +332,10 @@ The parameters for this event are:
 #### `AD_ERROR`
 
 ```java
-    IEventHandler adErrorHandler = (Map<String, ?> data) -> {
-        String errorMessage = (String) data.get("errorMessage");
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_ERROR, adErrorHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.AD_ERROR, (TruexAdEvent event, Map<String,?> data) -> {
+  String errorMessage = (String) data.get("errorMessage");
+  // [...]
+});
 ```
 
 This is a [terminal event](#terminal-events). This event will fire when the true[X] unit has encountered an unrecoverable error. The app code should handle this the same way as an `AD_COMPLETED` event -- resume playback and remove all references to the `TruexAdRenderer` instance.
@@ -320,10 +348,9 @@ The parameters for this event are:
 #### `NO_ADS_AVAILABLE`
 
 ```java
-    IEventHandler noAdsAvailableHandler = (Map<String, ?> data) -> {
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.NO_ADS_AVAILABLE, noAdsAvailableHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.NO_ADS_AVAILABLE, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
 ```
 
 This is a [terminal event](#terminal-events). This event will fire when the true[X] unit has determined it has no ads available to show the current user. The app code should handle this the same way as an `AD_COMPLETED` event -- resume playback and remove all references to the `TruexAdRenderer` instance.
@@ -332,10 +359,12 @@ This is a [terminal event](#terminal-events). This event will fire when the true
 #### `AD_FREE_POD`
 
 ```java
-    IEventHandler adFreePodHandler = (Map<String, ?> data) -> {
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.AD_FREE_POD, adFreePodHandler);
+boolean gotCredit = false;
+
+truexAdRenderer.addEventListener(TruexAdEvent.AD_FREE_POD, (TruexAdEvent event, Map<String,?> data) -> {
+  gotCredit = true;
+  // [...]
+});
 ```
 
 This event will fire when the user has earned a credit with true[X]. The app code should notate that this event has fired, but should not take any further action. Upon receiving a [terminal event](#terminal-events), if `AD_FREE_POD` was fired, the app should skip all remaining ads in the current slot. If it was not fired, the app should resume playback without skipping any ads, so the user receives a normal video ad payload.
@@ -344,14 +373,15 @@ This event will fire when the user has earned a credit with true[X]. The app cod
 #### `POPUP_WEBSITE`
 
 ```java
-    IEventHandler popupWebsiteHandler = (Map<String, ?> data) -> {
-        String url = (String) data.get("url");
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.POPUP_WEBSITE, popupWebsiteHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.POPUP_WEBSITE, (TruexAdEvent event, Map<String,?> data) -> {
+  String url = (String) data.get("url");
+  // send Intent to open browser app
+});
 ```
 
 This event will fire when a popup view is required from the app. The app should call `pause` on the renderer and display the requested URL to the user. Once the user closes the popup, the app should call `resume` on the renderer.
+
+NOTE: This event is fired for mobile only.
 
 The parameters for this event are:
 
@@ -361,10 +391,9 @@ The parameters for this event are:
 #### `USER_CANCEL_STREAM`
 
 ```java
-    IEventHandler userCancelStreamHandler = (Map<String, ?> data) -> {
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.USER_CANCEL_STREAM, userCancelStreamHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.USER_CANCEL_STREAM, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
 ```
 
 This is a [terminal event](#terminal-events), and is optional.
@@ -382,32 +411,22 @@ All following events are used mostly for tracking purposes -- no action is gener
 #### `OPT_IN`
 
 ```java
-    IEventHandler optInHandler = (Map<String, ?> data) -> {
-        String campaignName = (String) data.get("campaignName");
-        int adID = (Integer) data.get("adID");
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.OPT_IN, optInHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.OPT_IN, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
 ```
 
 This event will fire if the user selects to interact with the true[X] interactive ad.
 
 Note that this event may be fired multiple times if a user opts in to the true[X] interactive ad and subsequently backs out.
 
-The parameters for this event are:
-
-* `campaignName`: The name of the ad campaign.
-* `adID`: The ad ID.
-
-
 #### `OPT_OUT`
 
 ```java
-    IEventHandler optOutHandler = (Map<String, ?> data) -> {
-        boolean userInitiated = (Boolean) data.get("userInitiated");
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.OPT_OUT, optOutHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.OPT_OUT, (TruexAdEvent event, Map<String,?> data) -> {
+  boolean userInitiated = (Boolean) data.get("userInitiated");
+  // [...]
+});
 ```
 
 This event will fire if the user opts for a normal video ad experience.
@@ -420,10 +439,9 @@ The parameters for this event are:
 #### `SKIP_CARD_SHOWN`
 
 ```java
-    IEventHandler skipCardShownHandler = (Map<String, ?> data) -> {
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.SKIP_CARD_SHOWN, skipCardShownHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.SKIP_CARD_SHOWN, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
 ```
 
 This event will fire anytime a "skip card" is shown to a user as a result of completing a true[X] Sponsored Stream interactive ad in an earlier pre-roll.
@@ -432,27 +450,25 @@ This event will fire anytime a "skip card" is shown to a user as a result of com
 #### `USER_CANCEL`
 
 ```java
-    IEventHandler userCancelHandler = (Map<String, ?> data) -> {
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.USER_CANCEL, userCancelHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.USER_CANCEL, (TruexAdEvent event, Map<String,?> data) -> {
+  // [...]
+});
 ```
 
 This event will fire when a user backs out of the true[X] interactive ad unit after having opted in. This would be achieved by tapping the "Yes" link to the "Are you sure you want to go back and choose a different ad experience" prompt inside the true[X] interactive ad. The user will be subsequently taken back to the Choice Card (with the countdown timer reset to full).
 
 Note that after a `USER_CANCEL`, the user can opt-in and engage with an interactive ad again, so more `OPT_IN` or `OPT_OUT` events may then be fired.
 
-
+<!-- This event seems obsolete, it is not fired by integration_core or C3 as far as i can tell.
 #### `VIDEO_EVENT`
 
 ```java
-    IEventHandler videoEventHandler = (Map<String, ?> data) -> {
-        String type = (String) data.get("subType");
-        String videoName = (String) data.get("videoName");
-        String url = (String) data.get("url");
-        // [...]
-    };
-    truexAdRenderer.addEventListener(TruexAdRendererConstants.VIDEO_EVENT, videoEventHandler);
+truexAdRenderer.addEventListener(TruexAdEvent.VIDEO_EVENT, (TruexAdEvent event, Map<String,?> data) -> {
+    String type = (String) data.get("subType");
+    String videoName = (String) data.get("videoName");
+    String url = (String) data.get("url");
+    // [...]
+});
 ```
 
 A `VIDEO_EVENT` is emitted when noteworthy events occur in a video within a true[X] unit. These events are differentiated by their `subType` value (found in `TruexAdRendererConstants`) as follows:
@@ -468,3 +484,4 @@ The parameters for this event are:
 * `subType`: The type of the emitted video event.
 * `videoName`: The name of the video that emitted the event, if available
 * `url`: The source URL of the video that emitted the event, if available
+-->
