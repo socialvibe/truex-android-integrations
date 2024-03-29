@@ -12,8 +12,8 @@ The first step is to fetch the latest version of the TruexAdRenderer. The easies
 
 In your app's `build.gradle`:
 
-1. Under `repositories`, add a new maven entry with the url: <https://ctv.truex.com/android/maven>
-2. Under `dependencies`, add `compile 'com.truex:TruexAdRenderer-tv:2.1.3'`
+1. Under `repositories`, add a new maven entry with the url: <https://s3.amazonaws.com/android.truex.com/tar/prod/maven>
+2. Under `dependencies`, add `implement 'com.truex:TruexAdRenderer-Android:2.8.2'`
 
 #### Example app's build.gradle
 
@@ -39,14 +39,14 @@ android {
 
 repositories {
     maven {
-        url "https://ctv.truex.com/android/maven"
+        url "https://s3.amazonaws.com/android.truex.com/tar/prod/maven"
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.truex:TruexAdRenderer-tv:2.1.3'
+    implementation 'com.truex:TruexAdRenderer-Android:2.8.2'
 }
 ```
 
@@ -61,6 +61,10 @@ Here is [an example][sheppard] of a minimal android application that uses the Tr
 ### Google Ad Manager (GAM) DAI SDK Integration Example
 
 Here is a [reference application](https://github.com/socialvibe/truex-android-google-ad-manager-reference-app) that outlines how to use the Google Ad Manager (GAM) DAI SDK with the TruexAdRenderer.
+
+### React Native Example
+
+Here is a [reference application](https://github.com/socialvibe/Tinkerbell) that demonstrates how to use the renderer within a React Native application, by wrapping the renderer in a React module.
 
 ### Integration Documentation
 
