@@ -2,7 +2,7 @@
 
 Documentation and reference apps for true[X]'s Android / Fire TV-based integration library. It is a common library that works across Android mobile, Androiv TV, and Fire TV platforms.
 
-The current version of the integration documentation can be found here: [TruexAdRenderer-Android Documentation](DOCS.md).
+The current version of the integration API documentation can be found here: [TruexAdRenderer-Android Documentation](DOCS.md). It outlines how to use the TruexAdRenderer. Included within the documentation is a description of the public API for the TruexAdRenderer as well as a description of the event flow.
 
 ## Getting Started
 
@@ -66,7 +66,3 @@ Here is a [reference application](https://github.com/socialvibe/truex-android-go
 ### React Native Example
 
 Here is a [reference application](https://github.com/socialvibe/Tinkerbell) that demonstrates how to use the renderer within a React Native application, by wrapping the renderer in a React module.
-
-### Integration Documentation
-
-The [TruexAdRenderer documentation](https://github.com/socialvibe/truex-android-integrations/blob/develop/DOCS.md) outlines how to use the TruexAdRenderer. Included within the documentation is a description of the public API for the TruexAdRenderer as well as a description of the event flow.
