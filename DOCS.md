@@ -1,7 +1,7 @@
 ![true[X] logo](media/truex.png)
 
 
-# TruexAdRenderer Android/Fire TV Documentation
+# TruexAdRenderer Android / Fire TV Documentation
 
 Version 2.8.2
 
@@ -14,7 +14,7 @@ Version 2.8.2
     * [Handling Events from TruexAdRenderer](#handling-events-from-truexadrenderer)
         * [Terminal Events](#terminal-events)
     * [Handling Ad Elimination](#handling-ad-elimination)
-* [TruexAdRenderer Android/Fire TV API](#truexadrenderer-androidfire-tv-api)
+* [TruexAdRenderer Android API](#truexadrenderer-android-api)
     * [Adding `TruexAdRenderer` to Your Project](#adding-truexadrenderer-to-your-project)
         * [Gradle Example](#gradle-example)
     * [`TruexAdRenderer` Methods](#truexadrenderer-methods)
@@ -139,7 +139,7 @@ It's important to note that the player should not immediately resume playback on
 Skipping video ads is completely the responsibility of the app code. The ad service provider's SDK should provide enough information for the app to determine where the current pod end-point is, and the app, when appropriate, should fast-forward directly to this point when resuming playback.
 
 
-## TruexAdRenderer Android/Fire TV API
+## TruexAdRenderer Android API
 
 This is an outline of public `TruexAdRenderer` methods and events. Methods are called on the `TruexAdRenderer` instance, while output events are triggered by calls to listeners registered via `TruexAdRenderer.addEventListener`.
 

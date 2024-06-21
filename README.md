@@ -1,8 +1,8 @@
-# true[X] Android/Fire TV Integrations
+# true[X] Android / Fire TV Integrations
 
-Documentation and reference apps for true[X]'s Android/Fire TV-based integration library.
+Documentation and reference apps for true[X]'s Android / Fire TV-based integration library. It is a common library that works across Android mobile, Androiv TV, and Fire TV platforms.
 
-The current version of the integration documentation can be found here: [TruexAdRenderer-AndroidTV Documentation](DOCS.md).
+The current version of the integration documentation can be found here: [TruexAdRenderer-Android Documentation](DOCS.md).
 
 ## Getting Started
 
@@ -14,6 +14,7 @@ In your app's `build.gradle`:
 
 1. Under `repositories`, add a new maven entry with the url: <https://s3.amazonaws.com/android.truex.com/tar/prod/maven>
 2. Under `dependencies`, add `implement 'com.truex:TruexAdRenderer-Android:2.8.2'`
+    * Be sure to replace the version number with whatever the current latest one is.
 
 #### Example app's build.gradle
 
@@ -72,4 +73,4 @@ The [TruexAdRenderer documentation][docs] outlines how to use the TruexAdRendere
 
 [sheppard]: https://github.com/socialvibe/sheppard
 [gam]: https://github.com/socialvibe/truex-tvos-google-ad-manager-reference-app
-[docs]: https://github.com/socialvibe/truex-androidtv-integrations/blob/develop/DOCS.md
+[docs]: https://github.com/socialvibe/truex-android-integrations/blob/develop/DOCS.md
