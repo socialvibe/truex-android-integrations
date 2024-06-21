@@ -55,9 +55,9 @@ dependencies {
 
 ## Next Steps
 
-### Integration Example
+### Mobile Example
 
-Here is [an example][sheppard] of a minimal android application that uses the TruexAdRenderer.
+Here is [a mobile example](https://github.com/socialvibe/truex-android-mobile-reference-app) of a minimal android application that uses the TruexAdRenderer.
 
 ### Google Ad Manager (GAM) DAI SDK Integration Example
 
@@ -69,8 +69,4 @@ Here is a [reference application](https://github.com/socialvibe/Tinkerbell) that
 
 ### Integration Documentation
 
-The [TruexAdRenderer documentation][docs] outlines how to use the TruexAdRenderer. Included within the documentation is a description of the public API for the TruexAdRenderer as well as a description of the event flow.
-
-[sheppard]: https://github.com/socialvibe/sheppard
-[gam]: https://github.com/socialvibe/truex-tvos-google-ad-manager-reference-app
-[docs]: https://github.com/socialvibe/truex-android-integrations/blob/develop/DOCS.md
+The [TruexAdRenderer documentation](https://github.com/socialvibe/truex-android-integrations/blob/develop/DOCS.md) outlines how to use the TruexAdRenderer. Included within the documentation is a description of the public API for the TruexAdRenderer as well as a description of the event flow.
