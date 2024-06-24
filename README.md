@@ -59,6 +59,8 @@ dependencies {
 
 Here is [a mobile example](https://github.com/socialvibe/truex-android-mobile-reference-app) of a minimal android application that uses the TruexAdRenderer.
 
+Note in particular the [PlayerFragment](https://github.com/socialvibe/truex-android-mobile-reference-app/blob/master/ReferenceApp/src/main/java/com/truex/referenceapp/player/PlayerFragment.java#L274-L290) and [TruexAdManager](https://github.com/socialvibe/truex-android-mobile-reference-app/blob/master/ReferenceApp/src/main/java/com/truex/referenceapp/ads/TruexAdManager.java) classes that illustrate how to show an interactive TruexAd when encountering it on an ad break, and then resuming either the main video or else the fallback ad videos, depending on the user receiving an ad credit.
+
 ### Google Ad Manager (GAM) DAI SDK Integration Example
 
 Here is a [reference application](https://github.com/socialvibe/truex-android-google-ad-manager-reference-app) that outlines how to use the Google Ad Manager (GAM) DAI SDK with the TruexAdRenderer.
