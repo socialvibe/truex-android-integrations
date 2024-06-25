@@ -1,8 +1,8 @@
-# true[X] Android/Fire TV Integrations
+# true[X] Android / Fire TV Integrations
 
-Documentation and reference apps for true[X]'s Android/Fire TV-based integration library.
+Documentation and reference apps for true[X]'s Android / Fire TV-based integration library. It is a common library that works across Android mobile, Androiv TV, and Fire TV platforms.
 
-The current version of the integration documentation can be found here: [TruexAdRenderer-AndroidTV Documentation](DOCS.md).
+The current version of the integration API documentation can be found here: [TruexAdRenderer-Android Documentation](DOCS.md). It outlines how to use the TruexAdRenderer. Included within the documentation is a description of the public API for the TruexAdRenderer as well as a description of the event flow.
 
 ## Getting Started
 
@@ -14,6 +14,7 @@ In your app's `build.gradle`:
 
 1. Under `repositories`, add a new maven entry with the url: <https://s3.amazonaws.com/android.truex.com/tar/prod/maven>
 2. Under `dependencies`, add `implement 'com.truex:TruexAdRenderer-Android:2.8.2'`
+    * Be sure to replace the version number with whatever the current latest one is.
 
 #### Example app's build.gradle
 
@@ -54,9 +55,11 @@ dependencies {
 
 ## Next Steps
 
-### Integration Example
+### Mobile Example
 
-Here is [an example][sheppard] of a minimal android application that uses the TruexAdRenderer.
+Here is [a mobile example](https://github.com/socialvibe/truex-android-mobile-reference-app) of a minimal android application that uses the TruexAdRenderer.
+
+Note in particular the [PlayerFragment](https://github.com/socialvibe/truex-android-mobile-reference-app/blob/master/ReferenceApp/src/main/java/com/truex/referenceapp/player/PlayerFragment.java#L274-L290) and [TruexAdManager](https://github.com/socialvibe/truex-android-mobile-reference-app/blob/master/ReferenceApp/src/main/java/com/truex/referenceapp/ads/TruexAdManager.java) classes that illustrate how to show an interactive TruexAd when encountering it on an ad break, and then resuming either the main video or else the fallback ad videos, depending on the user receiving an ad credit.
 
 ### Google Ad Manager (GAM) DAI SDK Integration Example
 
@@ -65,11 +68,3 @@ Here is a [reference application](https://github.com/socialvibe/truex-android-go
 ### React Native Example
 
 Here is a [reference application](https://github.com/socialvibe/Tinkerbell) that demonstrates how to use the renderer within a React Native application, by wrapping the renderer in a React module.
-
-### Integration Documentation
-
-The [TruexAdRenderer documentation][docs] outlines how to use the TruexAdRenderer. Included within the documentation is a description of the public API for the TruexAdRenderer as well as a description of the event flow.
-
-[sheppard]: https://github.com/socialvibe/sheppard
-[gam]: https://github.com/socialvibe/truex-tvos-google-ad-manager-reference-app
-[docs]: https://github.com/socialvibe/truex-androidtv-integrations/blob/develop/DOCS.md
